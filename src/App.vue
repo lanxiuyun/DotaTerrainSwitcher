@@ -8,6 +8,7 @@ import {
   NRadioGroup,
   NScrollbar,
   NSpace,
+  NTag,
 } from "naive-ui";
 import { computed, ref } from "vue";
 
@@ -18,6 +19,7 @@ const isExecuting = ref(false);
 
 // 地图选项
 const mapOptions = [
+  { label: "默认地图", value: "dota_default_739d" },
   { label: "不朽庭院", value: "dota_coloseum_739d" },
   { label: "沙漠地图", value: "dota_desert_739d" },
   { label: "蔓生国度", value: "dota_jungle_739d" },
@@ -79,26 +81,19 @@ async function executeMapReplacement() {
     <div class="app-container">
       <div class="header">
         <h1>Dota 地图替换器</h1>
-        <p class="subtitle">简单快速地替换你的Dota 地图文件</p>
+        <p class="subtitle">简单快速地替换你的 Dota 默认地图</p>
       </div>
 
       <div class="main-card">
         <NCard title="地图替换设置" class="settings-card">
-          <template #header>
-            <div class="card-header">
-              <span class="icon">📍</span>
-              <span>地图替换设置</span>
-            </div>
-          </template>
-
-          <p class="instruction">
-            选择游戏路径和要替换的地图，然后点击执行按钮
-          </p>
-
+          <div>选择地图路径和要替换的地图，然后点击执行按钮。</div>
           <NSpace vertical size="large">
             <!-- 游戏路径 -->
             <div class="input-group">
-              <label class="input-label">游戏路径</label>
+              <label class="input-label"
+                >地图路径(例如：D:\steam\steamapps\common\dota 2
+                beta\game\dota\maps)</label
+              >
               <div class="path-input-container">
                 <NInput
                   v-model:value="selectedPath"
@@ -106,7 +101,12 @@ async function executeMapReplacement() {
                   readonly
                   class="path-input"
                 />
-                <NButton @click="selectPath" type="primary" ghost class="browse-button">
+                <NButton
+                  @click="selectPath"
+                  type="primary"
+                  ghost
+                  class="browse-button"
+                >
                   <template #icon>
                     <span class="icon">📁</span>
                   </template>
@@ -120,15 +120,14 @@ async function executeMapReplacement() {
               <label class="input-label">选择地图</label>
               <NRadioGroup v-model:value="selectedMap" class="map-radio-group">
                 <div class="map-grid">
-                  <div
+                  <NRadio
                     v-for="option in mapOptions"
                     :key="option.value"
+                    :value="option.value"
                     class="map-item"
                   >
-                    <NRadio :value="option.value" class="map-radio">
-                      {{ option.label }}
-                    </NRadio>
-                  </div>
+                    {{ option.label }}
+                  </NRadio>
                 </div>
               </NRadioGroup>
               <div class="selection-info" v-if="selectedMap">
@@ -200,20 +199,6 @@ async function executeMapReplacement() {
   margin-bottom: 15px;
 }
 
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.instruction {
-  color: #666;
-  margin: 0 0 15px 0;
-  font-size: 0.9rem;
-}
-
 .input-group {
   display: flex;
   flex-direction: column;
@@ -246,10 +231,6 @@ async function executeMapReplacement() {
 
 .browse-button {
   flex-shrink: 0;
-}
-
-.map-radio-group {
-  width: 100%;
 }
 
 .map-grid {
