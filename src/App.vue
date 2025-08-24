@@ -259,11 +259,6 @@ async function executeMapReplacement() {
   border-color: #d0d0d0;
 }
 
-.map-radio {
-  width: 100%;
-  padding: 4px 0;
-}
-
 .selection-info {
   font-size: 0.85rem;
   color: #666;
@@ -287,42 +282,6 @@ async function executeMapReplacement() {
   gap: 12px;
 }
 
-.icon {
-  font-size: 1em;
-}
-
-@media (max-width: 768px) {
-  .app-container {
-    padding: 15px;
-  }
-
-  .main-card {
-    padding: 0 15px;
-  }
-
-  .header h1 {
-    font-size: 1.8rem;
-  }
-
-  .input-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .action-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .map-grid {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .map-item {
-    padding: 10px 12px;
-  }
-}
 </style>
 
 <style>
