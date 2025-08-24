@@ -40,15 +40,16 @@ const canExecute = computed(() => {
 });
 
 const store = new LazyStore("store.bin");
+
 onMounted(async () => {
   const path = await store.get("path");
-  if (path?.value) {
-    selectedPath.value = path.value;
+  if (path) {
+    selectedPath.value = (path as { value: string }).value;
   }
 
   const map = await store.get("map");
-  if (map?.value) {
-    selectedMap.value = map.value;
+  if (map) {
+    selectedMap.value = (map as { value: string }).value;
   }
 });
 
