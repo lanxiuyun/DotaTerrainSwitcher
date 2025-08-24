@@ -14,8 +14,18 @@
     "store:allow-set",
     "store:allow-save",
     "store:allow-load",
-    
+
     "fs:default",
-    "fs:allow-copy-file"
+    {
+      "identifier": "fs:allow-copy-file",
+      "allow": [
+        { "path": "resources/**" },
+        { "path": "**/*" }
+      ]
+    },
+    {
+      "identifier": "fs:allow-read",
+      "allow": [{ "path": "*" }]
+    }
   ]
 }

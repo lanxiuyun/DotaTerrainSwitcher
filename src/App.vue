@@ -66,6 +66,12 @@ async function selectFolder() {
   }
 }
 
+// 复制文件
+import { copyFile } from "@tauri-apps/plugin-fs";
+async function copyDotaData(src: string, dest: string) {
+  await copyFile(src, dest);
+}
+
 // 执行地图替换
 async function executeMapReplacement() {
   if (!canExecute.value) return;
@@ -76,17 +82,12 @@ async function executeMapReplacement() {
   await store.set("map", { value: selectedMap.value });
   await store.save();
 
-  try {
-    if ("Notification" in window && Notification.permission === "granted") {
-      new Notification("地图替换成功完成！");
-    }
-  } catch (error) {
-    if ("Notification" in window && Notification.permission === "granted") {
-      new Notification("地图替换失败!");
-    }
-  } finally {
-    isExecuting.value = false;
-  }
+  // 复制  assets 中的文件到 selectedPath.value
+  await copyDotaData(
+    `resources/${selectedMap.value}/dota.vpk`,
+    selectedPath.value + "/dota.vpk"
+  );
+  isExecuting.value = false;
 }
 </script>
 

@@ -1,3 +1,5 @@
+*.vpk
+
 # Logs
 logs
 *.log
