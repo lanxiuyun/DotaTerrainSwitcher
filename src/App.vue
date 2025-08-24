@@ -169,6 +169,43 @@ async function executeMapReplacement() {
           </NSpace>
         </NCard>
       </div>
+
+      <!-- 感谢信息 -->
+      <div class="footer">
+        <div class="thanks-section">
+          <p class="thanks-text">
+            特别感谢：<br />
+            <n-space>
+              <a
+                href="https://steamcommunity.com/sharedfiles/filedetails/?id=1664733222"
+                target="_blank"
+                class="thanks-link"
+              >
+                @Dota 2 Terrain Mods
+              </a>
+              <a href="https://v0.app/" target="_blank" class="thanks-link">
+                @v0 提供的页面设计
+              </a>
+
+              <a
+                href="https://www.naiveui.com/zh-CN/os-theme"
+                target="_blank"
+                class="thanks-link"
+              >
+                @NaiveUI 组件
+              </a>
+
+              <a href="cursor.com" target="_blank" class="thanks-link">
+                @cursor 编辑器
+              </a>
+
+              <a href="trae.com" target="_blank" class="thanks-link">
+                @trae 编辑器
+              </a>
+            </n-space>
+          </p>
+        </div>
+      </div>
     </div>
   </NScrollbar>
 </template>
@@ -292,6 +329,36 @@ async function executeMapReplacement() {
   display: flex;
   justify-content: center;
   gap: 12px;
+}
+.footer {
+  text-align: center;
+}
+
+.thanks-section {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.thanks-text {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.thanks-link {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.thanks-link:hover {
+  text-decoration: underline;
+  color: #0052a3;
 }
 </style>
 
