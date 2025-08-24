@@ -6,8 +6,8 @@ import {
   NInput,
   NRadio,
   NRadioGroup,
+  NScrollbar,
   NSpace,
-  NScrollbar
 } from "naive-ui";
 import { computed, ref } from "vue";
 
@@ -91,7 +91,9 @@ async function executeMapReplacement() {
             </div>
           </template>
 
-          <p class="instruction">选择游戏路径和要替换的地图，然后点击执行按钮</p>
+          <p class="instruction">
+            选择游戏路径和要替换的地图，然后点击执行按钮
+          </p>
 
           <NSpace vertical size="large">
             <!-- 游戏路径 -->
@@ -281,11 +283,11 @@ async function executeMapReplacement() {
   justify-content: center;
   gap: 12px;
 }
-
 </style>
 
 <style>
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: #f5f5f5;
