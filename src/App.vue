@@ -1,160 +1,341 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import {
+  NButton,
+  NCard,
+  NInput,
+  NRadio,
+  NRadioGroup,
+  NSpace,
+  NScrollbar
+} from "naive-ui";
+import { computed, ref } from "vue";
 
-const greetMsg = ref("");
-const name = ref("");
+// 响应式数据
+const selectedPath = ref("");
+const selectedMap = ref("");
+const isExecuting = ref(false);
 
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsg.value = await invoke("greet", { name: name.value });
+// 地图选项
+const mapOptions = [
+  { label: "不朽庭院", value: "dota_coloseum_739d" },
+  { label: "沙漠地图", value: "dota_desert_739d" },
+  { label: "蔓生国度", value: "dota_jungle_739d" },
+  { label: "礁石之界", value: "dota_reef_739d" },
+  { label: "秋季地图", value: "dota_autumn_739d" },
+  { label: "夏季地图", value: "dota_summer_739d" },
+  { label: "春季地图", value: "dota_spring_739d" },
+  { label: "冬季地图", value: "dota_winter_739d" },
+  { label: "大圣的新游记", value: "dota_journey_739d" },
+  { label: "皇冠陨落地图", value: "dota_crownfall_739d" },
+  { label: "神圣之地", value: "dota_ti10_739d" },
+  { label: "玉海之渊", value: "dota_cavern_739d" },
+];
+
+// 计算属性
+const canExecute = computed(() => {
+  return selectedPath.value && selectedMap.value && !isExecuting.value;
+});
+
+// 选择路径
+async function selectPath() {
+  try {
+    const path = prompt("请输入Dota 2安装目录路径:");
+    if (path) {
+      selectedPath.value = path;
+    }
+  } catch (error) {
+    console.error("选择路径失败:", error);
+  }
+}
+
+// 执行地图替换
+async function executeMapReplacement() {
+  if (!canExecute.value) return;
+
+  isExecuting.value = true;
+
+  try {
+    const result = await invoke("replace_dota_map", {
+      gamePath: selectedPath.value,
+      mapName: selectedMap.value,
+    });
+
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification("地图替换成功完成！");
+    }
+  } catch (error) {
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification("地图替换失败，请检查日志");
+    }
+  } finally {
+    isExecuting.value = false;
+  }
 }
 </script>
 
 <template>
-  <main class="container">
-    <h1>Welcome to Tauri + Vue</h1>
+  <NScrollbar class="app-scrollbar" trigger="hover" x-scrollable y-scrollable>
+    <div class="app-container">
+      <div class="header">
+        <h1>Dota 地图替换器</h1>
+        <p class="subtitle">简单快速地替换你的Dota 地图文件</p>
+      </div>
 
-    <div class="row">
-      <a href="https://vite.dev" target="_blank">
-        <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      </a>
-      <a href="https://tauri.app" target="_blank">
-        <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-      </a>
+      <div class="main-card">
+        <NCard title="地图替换设置" class="settings-card">
+          <template #header>
+            <div class="card-header">
+              <span class="icon">📍</span>
+              <span>地图替换设置</span>
+            </div>
+          </template>
+
+          <p class="instruction">选择游戏路径和要替换的地图，然后点击执行按钮</p>
+
+          <NSpace vertical size="large">
+            <!-- 游戏路径 -->
+            <div class="input-group">
+              <label class="input-label">游戏路径</label>
+              <n-space style="width: 100%">
+                <NInput
+                  v-model:value="selectedPath"
+                  placeholder="选择 dota2 地图目录..."
+                  readonly
+                  class="path-input"
+                />
+                <NButton @click="selectPath" type="primary" ghost>
+                  <template #icon>
+                    <span class="icon">📁</span>
+                  </template>
+                  浏览
+                </NButton>
+              </n-space>
+            </div>
+
+            <!-- 选择地图 -->
+            <div class="input-group">
+              <label class="input-label">选择地图</label>
+              <NRadioGroup v-model:value="selectedMap" class="map-radio-group">
+                <div class="map-grid">
+                  <div
+                    v-for="option in mapOptions"
+                    :key="option.value"
+                    class="map-item"
+                  >
+                    <NRadio :value="option.value" class="map-radio">
+                      {{ option.label }}
+                    </NRadio>
+                  </div>
+                </div>
+              </NRadioGroup>
+              <div class="selection-info" v-if="selectedMap">
+                已选择:
+                {{ mapOptions.find((opt) => opt.value === selectedMap)?.label }}
+              </div>
+            </div>
+
+            <!-- 执行按钮 -->
+            <NButton
+              @click="executeMapReplacement"
+              :disabled="!canExecute"
+              :loading="isExecuting"
+              type="primary"
+              size="large"
+              class="execute-button"
+            >
+              <template #icon>
+                <span class="icon">▶️</span>
+              </template>
+              {{ isExecuting ? "执行中..." : "执行替换" }}
+            </NButton>
+          </NSpace>
+        </NCard>
+      </div>
     </div>
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
-
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
-    </form>
-    <p>{{ greetMsg }}</p>
-  </main>
+  </NScrollbar>
 </template>
 
 <style scoped>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+.app-scrollbar {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
+.app-container {
+  background: #f5f5f5;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
 }
 
-</style>
-<style>
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color: #0f0f0f;
-  background-color: #f6f6f6;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+.header {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.container {
+.header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #666;
   margin: 0;
-  padding-top: 10vh;
+}
+
+.main-card {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.settings-card {
+  margin-bottom: 15px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.instruction {
+  color: #666;
+  margin: 0 0 15px 0;
+  font-size: 0.9rem;
+}
+
+.input-group {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: center;
+  gap: 6px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
+.input-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
 }
 
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
-}
-
-.row {
+.input-row {
   display: flex;
-  justify-content: center;
+  gap: 10px;
+  align-items: center;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+.path-input {
+  flex: 1;
 }
 
-a:hover {
-  color: #535bf2;
+.map-radio-group {
+  width: 100%;
 }
 
-h1 {
-  text-align: center;
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  width: 100%;
 }
 
-input,
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  color: #0f0f0f;
-  background-color: #ffffff;
-  transition: border-color 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-}
-
-button {
+.map-item {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.2s;
   cursor: pointer;
 }
 
-button:hover {
-  border-color: #396cd8;
-}
-button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
+.map-item:hover {
+  background-color: #f5f5f5;
+  border-color: #d0d0d0;
 }
 
-input,
-button {
-  outline: none;
+.map-radio {
+  width: 100%;
+  padding: 4px 0;
 }
 
-#greet-input {
-  margin-right: 5px;
+.selection-info {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 8px;
+  text-align: center;
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
+.execute-button {
+  width: 100%;
+  height: 40px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.icon {
+  font-size: 1em;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 15px;
   }
 
-  a:hover {
-    color: #24c8db;
+  .main-card {
+    padding: 0 15px;
   }
 
-  input,
-  button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
+  .header h1 {
+    font-size: 1.8rem;
   }
-  button:active {
-    background-color: #0f0f0f69;
+
+  .input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .map-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .map-item {
+    padding: 10px 12px;
   }
 }
+</style>
 
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5;
+  overflow: hidden;
+  height: 100vh;
+}
+
+#app {
+  height: 100vh;
+  overflow: hidden;
+}
 </style>
