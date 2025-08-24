@@ -1,4 +1,5 @@
 *.vpk
+src-tauri/icons
 
 # Logs
 logs
