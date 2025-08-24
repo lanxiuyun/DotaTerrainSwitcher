@@ -99,20 +99,20 @@ async function executeMapReplacement() {
             <!-- 游戏路径 -->
             <div class="input-group">
               <label class="input-label">游戏路径</label>
-              <n-space style="width: 100%">
+              <div class="path-input-container">
                 <NInput
                   v-model:value="selectedPath"
                   placeholder="选择 dota2 地图目录..."
                   readonly
                   class="path-input"
                 />
-                <NButton @click="selectPath" type="primary" ghost>
+                <NButton @click="selectPath" type="primary" ghost class="browse-button">
                   <template #icon>
                     <span class="icon">📁</span>
                   </template>
                   浏览
                 </NButton>
-              </n-space>
+              </div>
             </div>
 
             <!-- 选择地图 -->
@@ -232,8 +232,20 @@ async function executeMapReplacement() {
   align-items: center;
 }
 
+.path-input-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
 .path-input {
   flex: 1;
+  min-width: 0;
+}
+
+.browse-button {
+  flex-shrink: 0;
 }
 
 .map-radio-group {
