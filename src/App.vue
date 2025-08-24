@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { invoke } from "@tauri-apps/api/core";
+import { open } from "@tauri-apps/plugin-dialog";
+import { LazyStore } from "@tauri-apps/plugin-store";
 import {
   NButton,
   NCard,
@@ -8,9 +9,8 @@ import {
   NRadioGroup,
   NScrollbar,
   NSpace,
-  NTag,
 } from "naive-ui";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 // 响应式数据
 const selectedPath = ref("");
@@ -39,15 +39,30 @@ const canExecute = computed(() => {
   return selectedPath.value && selectedMap.value && !isExecuting.value;
 });
 
+const store = new LazyStore("store.bin");
+onMounted(async () => {
+  const path = await store.get("path");
+  if (path?.value) {
+    selectedPath.value = path.value;
+  }
+
+  const map = await store.get("map");
+  if (map?.value) {
+    selectedMap.value = map.value;
+  }
+});
+
 // 选择路径
-async function selectPath() {
-  try {
-    const path = prompt("请输入Dota 2安装目录路径:");
-    if (path) {
-      selectedPath.value = path;
-    }
-  } catch (error) {
-    console.error("选择路径失败:", error);
+async function selectFolder() {
+  const file = await open({
+    multiple: false,
+    directory: true,
+  });
+
+  if (file) {
+    selectedPath.value = file;
+    await store.set("path", { value: file });
+    await store.save();
   }
 }
 
@@ -57,18 +72,17 @@ async function executeMapReplacement() {
 
   isExecuting.value = true;
 
-  try {
-    const result = await invoke("replace_dota_map", {
-      gamePath: selectedPath.value,
-      mapName: selectedMap.value,
-    });
+  await store.set("path", { value: selectedPath.value });
+  await store.set("map", { value: selectedMap.value });
+  await store.save();
 
+  try {
     if ("Notification" in window && Notification.permission === "granted") {
       new Notification("地图替换成功完成！");
     }
   } catch (error) {
     if ("Notification" in window && Notification.permission === "granted") {
-      new Notification("地图替换失败，请检查日志");
+      new Notification("地图替换失败!");
     }
   } finally {
     isExecuting.value = false;
@@ -102,7 +116,7 @@ async function executeMapReplacement() {
                   class="path-input"
                 />
                 <NButton
-                  @click="selectPath"
+                  @click="selectFolder"
                   type="primary"
                   ghost
                   class="browse-button"
@@ -166,9 +180,7 @@ async function executeMapReplacement() {
 
 .app-container {
   background: #f5f5f5;
-  padding: 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  min-height: 100vh;
 }
 
 .header {
