@@ -254,7 +254,7 @@ async function executeMapReplacement() {
 
 .map-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
   width: 100%;
 }
@@ -266,6 +266,9 @@ async function executeMapReplacement() {
   background: white;
   transition: all 0.2s;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .map-item:hover {
