@@ -43,12 +43,12 @@ export default {
 
   // 感谢信息
   thanks: {
-    title: '特别感谢：',
-    dotaMods: '@Dota 2 Terrain Mods',
-    v0: '@v0 提供的页面设计',
-    naiveUI: '@NaiveUI 组件',
-    cursor: '@cursor 编辑器',
-    trae: '@trae 编辑器',
+    title: '特别感谢',
+    dotaMods: 'Dota 2 Terrain Mods',
+    v0: 'v0 提供的页面设计',
+    naiveUI: 'NaiveUI 组件',
+    cursor: 'cursor 编辑器',
+    trae: 'trae 编辑器',
   },
 
   // 语言切换

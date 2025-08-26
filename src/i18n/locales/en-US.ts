@@ -43,12 +43,12 @@ export default {
 
   // Thanks section
   thanks: {
-    title: 'Special Thanks:',
-    dotaMods: '@Dota 2 Terrain Mods',
-    v0: '@v0 for page design',
-    naiveUI: '@NaiveUI components',
-    cursor: '@cursor editor',
-    trae: '@trae editor',
+    title: 'Special Thanks',
+    dotaMods: 'Dota 2 Terrain Mods',
+    v0: 'v0 for page design',
+    naiveUI: 'NaiveUI components',
+    cursor: 'cursor editor',
+    trae: 'trae editor',
   },
 
   // Language switching
