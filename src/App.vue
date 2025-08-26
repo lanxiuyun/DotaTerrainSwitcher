@@ -73,7 +73,7 @@ async function copyDotaData(src: string, dest: string) {
   await copyFile(src, dest);
 }
 
-// 执行地图替换
+// 执行地图切换
 async function executeMapReplacement() {
   if (!canExecute.value) return;
 
@@ -96,13 +96,13 @@ async function executeMapReplacement() {
   <NScrollbar class="app-scrollbar" trigger="hover" x-scrollable y-scrollable>
     <div class="app-container">
       <div class="header">
-        <h1>Dota 地图替换器</h1>
-        <p class="subtitle">简单快速地替换你的 Dota 默认地图</p>
+        <h1>Dota 地图切换器</h1>
+        <p class="subtitle">简单快速地切换你的 Dota 默认地图</p>
       </div>
 
       <div class="main-card">
-        <NCard title="地图替换设置" class="settings-card">
-          <div>选择地图路径和要替换的地图，然后点击执行按钮。</div>
+        <NCard title="地图切换设置" class="settings-card">
+          <div>选择地图路径和要切换的地图，然后点击执行按钮。</div>
           <NSpace vertical size="large">
             <!-- 游戏路径 -->
             <div class="input-group">
@@ -164,7 +164,7 @@ async function executeMapReplacement() {
               <template #icon>
                 <span class="icon">▶️</span>
               </template>
-              {{ isExecuting ? "执行中..." : "执行替换" }}
+              {{ isExecuting ? "执行中..." : "执行切换" }}
             </NButton>
           </NSpace>
         </NCard>
