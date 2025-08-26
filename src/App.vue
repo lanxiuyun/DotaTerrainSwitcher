@@ -9,8 +9,14 @@ import {
   NRadioGroup,
   NScrollbar,
   NSpace,
+  NSelect,
 } from "naive-ui";
 import { computed, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
+import { setLocale, getSupportedLocales, type SupportedLocale } from "./i18n";
+
+// 使用i18n
+const { t, locale } = useI18n();
 
 // 响应式数据
 const selectedPath = ref("");
@@ -18,21 +24,24 @@ const selectedMap = ref("");
 const isExecuting = ref(false);
 
 // 地图选项
-const mapOptions = [
-  { label: "默认地图", value: "dota_default_739d" },
-  { label: "不朽庭院", value: "dota_coloseum_739d" },
-  { label: "沙漠地图", value: "dota_desert_739d" },
-  { label: "蔓生国度", value: "dota_jungle_739d" },
-  { label: "礁石之界", value: "dota_reef_739d" },
-  { label: "秋季地图", value: "dota_autumn_739d" },
-  { label: "夏季地图", value: "dota_summer_739d" },
-  { label: "春季地图", value: "dota_spring_739d" },
-  { label: "冬季地图", value: "dota_winter_739d" },
-  { label: "大圣的新游记", value: "dota_journey_739d" },
-  { label: "皇冠陨落地图", value: "dota_crownfall_739d" },
-  { label: "神圣之地", value: "dota_ti10_739d" },
-  { label: "玉海之渊", value: "dota_cavern_739d" },
-];
+const mapOptions = computed(() => [
+  { label: t("maps.default"), value: "dota_default_739d" },
+  { label: t("maps.coloseum"), value: "dota_coloseum_739d" },
+  { label: t("maps.desert"), value: "dota_desert_739d" },
+  { label: t("maps.jungle"), value: "dota_jungle_739d" },
+  { label: t("maps.reef"), value: "dota_reef_739d" },
+  { label: t("maps.autumn"), value: "dota_autumn_739d" },
+  { label: t("maps.summer"), value: "dota_summer_739d" },
+  { label: t("maps.spring"), value: "dota_spring_739d" },
+  { label: t("maps.winter"), value: "dota_winter_739d" },
+  { label: t("maps.journey"), value: "dota_journey_739d" },
+  { label: t("maps.crownfall"), value: "dota_crownfall_739d" },
+  { label: t("maps.ti10"), value: "dota_ti10_739d" },
+  { label: t("maps.cavern"), value: "dota_cavern_739d" },
+]);
+
+// 支持的语言列表
+const supportedLocales = getSupportedLocales();
 
 // 计算属性
 const canExecute = computed(() => {
@@ -90,30 +99,44 @@ async function executeMapReplacement() {
   );
   isExecuting.value = false;
 }
+
+// 语言切换
+function handleLocaleChange(value: SupportedLocale) {
+  setLocale(value);
+}
 </script>
 
 <template>
   <NScrollbar class="app-scrollbar" trigger="hover" x-scrollable y-scrollable>
+    <div class="language-switcher">
+      <NSelect
+        v-model:value="locale"
+        :options="supportedLocales"
+        @update:value="handleLocaleChange"
+        size="small"
+        class="locale-select"
+      />
+    </div>
+
     <div class="app-container">
       <div class="header">
-        <h1>Dota 地图切换器</h1>
-        <p class="subtitle">简单快速地切换你的 Dota 默认地图</p>
+        <div class="header-top">
+          <h1>{{ t("header.title") }}</h1>
+        </div>
+        <p class="subtitle">{{ t("header.subtitle") }}</p>
       </div>
 
       <div class="main-card">
-        <NCard title="地图切换设置" class="settings-card">
-          <div>选择地图路径和要切换的地图，然后点击执行按钮。</div>
+        <NCard :title="t('settings.title')" class="settings-card">
+          <div>{{ t("settings.description") }}</div>
           <NSpace vertical size="large">
             <!-- 游戏路径 -->
             <div class="input-group">
-              <label class="input-label"
-                >地图路径(例如：D:\steam\steamapps\common\dota 2
-                beta\game\dota\maps)</label
-              >
+              <label class="input-label">{{ t("settings.pathLabel") }}</label>
               <div class="path-input-container">
                 <NInput
                   v-model:value="selectedPath"
-                  placeholder="选择 dota2 地图目录..."
+                  :placeholder="t('settings.pathPlaceholder')"
                   readonly
                   class="path-input"
                 />
@@ -126,14 +149,14 @@ async function executeMapReplacement() {
                   <template #icon>
                     <span class="icon">📁</span>
                   </template>
-                  浏览
+                  {{ t("common.browse") }}
                 </NButton>
               </div>
             </div>
 
             <!-- 选择地图 -->
             <div class="input-group">
-              <label class="input-label">选择地图</label>
+              <label class="input-label">{{ t("settings.mapLabel") }}</label>
               <NRadioGroup v-model:value="selectedMap" class="map-radio-group">
                 <div class="map-grid">
                   <NRadio
@@ -147,7 +170,7 @@ async function executeMapReplacement() {
                 </div>
               </NRadioGroup>
               <div class="selection-info" v-if="selectedMap">
-                已选择:
+                {{ t("common.selected") }}:
                 {{ mapOptions.find((opt) => opt.value === selectedMap)?.label }}
               </div>
             </div>
@@ -164,7 +187,7 @@ async function executeMapReplacement() {
               <template #icon>
                 <span class="icon">▶️</span>
               </template>
-              {{ isExecuting ? "执行中..." : "执行切换" }}
+              {{ isExecuting ? t("common.executing") : t("common.execute") }}
             </NButton>
           </NSpace>
         </NCard>
@@ -174,17 +197,17 @@ async function executeMapReplacement() {
       <div class="footer">
         <div class="thanks-section">
           <p class="thanks-text">
-            特别感谢：<br />
+            {{ t("thanks.title") }}<br />
             <n-space>
               <a
                 href="https://steamcommunity.com/sharedfiles/filedetails/?id=1664733222"
                 target="_blank"
                 class="thanks-link"
               >
-                @Dota 2 Terrain Mods
+                {{ t("thanks.dotaMods") }}
               </a>
               <a href="https://v0.app/" target="_blank" class="thanks-link">
-                @v0 提供的页面设计
+                {{ t("thanks.v0") }}
               </a>
 
               <a
@@ -192,15 +215,15 @@ async function executeMapReplacement() {
                 target="_blank"
                 class="thanks-link"
               >
-                @NaiveUI 组件
+                {{ t("thanks.naiveUI") }}
               </a>
 
               <a href="cursor.com" target="_blank" class="thanks-link">
-                @cursor 编辑器
+                {{ t("thanks.cursor") }}
               </a>
 
               <a href="trae.com" target="_blank" class="thanks-link">
-                @trae 编辑器
+                {{ t("thanks.trae") }}
               </a>
             </n-space>
           </p>
@@ -232,6 +255,20 @@ async function executeMapReplacement() {
   font-weight: 700;
   color: #1a1a1a;
   margin: 0 0 8px 0;
+}
+
+.language-switcher {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+}
+
+.locale-select {
+  width: 100px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .subtitle {
