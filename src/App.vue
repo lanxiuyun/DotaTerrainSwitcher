@@ -8,12 +8,13 @@ import {
   NRadio,
   NRadioGroup,
   NScrollbar,
-  NSpace,
   NSelect,
+  NSpace,
 } from "naive-ui";
 import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { setLocale, getSupportedLocales, type SupportedLocale } from "./i18n";
+import AdCard from "./ad-card.vue";
+import { getSupportedLocales, setLocale, type SupportedLocale } from "./i18n";
 
 // 使用i18n
 const { t, locale } = useI18n();
@@ -25,19 +26,19 @@ const isExecuting = ref(false);
 
 // 地图选项
 const mapOptions = computed(() => [
-  { label: t("maps.default"), value: "dota_default_739d" },
-  { label: t("maps.coloseum"), value: "dota_coloseum_739d" },
-  { label: t("maps.desert"), value: "dota_desert_739d" },
-  { label: t("maps.jungle"), value: "dota_jungle_739d" },
-  { label: t("maps.reef"), value: "dota_reef_739d" },
-  { label: t("maps.autumn"), value: "dota_autumn_739d" },
-  { label: t("maps.summer"), value: "dota_summer_739d" },
-  { label: t("maps.spring"), value: "dota_spring_739d" },
-  { label: t("maps.winter"), value: "dota_winter_739d" },
-  { label: t("maps.journey"), value: "dota_journey_739d" },
-  { label: t("maps.crownfall"), value: "dota_crownfall_739d" },
-  { label: t("maps.ti10"), value: "dota_ti10_739d" },
-  { label: t("maps.cavern"), value: "dota_cavern_739d" },
+  { label: t("maps.default"), value: "dota_default_740" },
+  { label: t("maps.coloseum"), value: "dota_coloseum_740" },
+  { label: t("maps.desert"), value: "dota_desert_740" },
+  { label: t("maps.jungle"), value: "dota_jungle_740" },
+  { label: t("maps.reef"), value: "dota_reef_740" },
+  { label: t("maps.autumn"), value: "dota_autumn_740" },
+  { label: t("maps.summer"), value: "dota_summer_740" },
+  { label: t("maps.spring"), value: "dota_spring_740" },
+  { label: t("maps.winter"), value: "dota_winter_740" },
+  { label: t("maps.journey"), value: "dota_journey_740" },
+  { label: t("maps.crownfall"), value: "dota_crownfall_740" },
+  { label: t("maps.ti10"), value: "dota_ti10_740" },
+  { label: t("maps.cavern"), value: "dota_cavern_740" },
 ]);
 
 // 支持的语言列表
@@ -126,6 +127,18 @@ function handleLocaleChange(value: SupportedLocale) {
         <p class="subtitle">{{ t("header.subtitle") }}</p>
       </div>
 
+      <div class="header">
+        <AdCard
+          title="广告一下"
+          description="Lazyeat（懒人手势）｜手势隔空控制，比划就行"
+          imageUrl="https://raw.githubusercontent.com/lanxiuyun/lazyeat/refs/heads/master/public/lazyeat.png"
+          buttonText="立即查看"
+          linkUrl="https://download.upgrade.toolsetlink.com/download?appKey=zY0JIMn9x6W7vCs4P1mtgQ"
+          badge="推荐"
+          width="100%"
+        />
+      </div>
+
       <div class="main-card">
         <NCard :title="t('settings.title')" class="settings-card">
           <div>{{ t("settings.description") }}</div>
@@ -206,9 +219,6 @@ function handleLocaleChange(value: SupportedLocale) {
               >
                 {{ t("thanks.dotaMods") }}
               </a>
-              <a href="https://v0.app/" target="_blank" class="thanks-link">
-                {{ t("thanks.v0") }}
-              </a>
 
               <a
                 href="https://www.naiveui.com/zh-CN/os-theme"
@@ -216,14 +226,6 @@ function handleLocaleChange(value: SupportedLocale) {
                 class="thanks-link"
               >
                 {{ t("thanks.naiveUI") }}
-              </a>
-
-              <a href="cursor.com" target="_blank" class="thanks-link">
-                {{ t("thanks.cursor") }}
-              </a>
-
-              <a href="trae.com" target="_blank" class="thanks-link">
-                {{ t("thanks.trae") }}
               </a>
             </n-space>
           </p>

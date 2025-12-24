@@ -12,7 +12,7 @@ export default {
   // Header and description
   header: {
     title: 'Dota Terrain Switcher',
-    subtitle: 'Quickly and easily switch your Dota default terrain',
+    subtitle: 'Quickly and easily switch your Dota default terrain. You need to close the Dota 2 client first, otherwise the map cannot be switched.',
   },
 
   // Settings card

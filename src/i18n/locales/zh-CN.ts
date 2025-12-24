@@ -11,8 +11,8 @@ export default {
 
   // 标题和描述
   header: {
-    title: 'Dota 地图切换器',
-    subtitle: '简单快速地切换你的 Dota 默认地图',
+    title: 'Dota 7.40 地图切换器',
+    subtitle: '简单快速地切换你的 Dota 默认地图。需要先关闭 Dota 2 客户端，否则无法切换地图。',
   },
 
   // 设置卡片
