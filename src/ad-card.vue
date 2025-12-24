@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NCard, NButton, NImage } from "naive-ui";
+import { NCard, NImage } from "naive-ui";
 
 interface AdCardProps {
   // 广告标题
@@ -29,17 +29,6 @@ const props = withDefaults(defineProps<AdCardProps>(), {
   openInNewTab: true,
   width: "100%",
 });
-
-// 处理按钮点击
-function handleClick() {
-  if (props.linkUrl) {
-    if (props.openInNewTab) {
-      window.open(props.linkUrl, "_blank", "noopener,noreferrer");
-    } else {
-      window.location.href = props.linkUrl;
-    }
-  }
-}
 </script>
 
 <template>
