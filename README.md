@@ -3,7 +3,7 @@
 
 This is a tool to switch the default Dota map to your favorite official map.
 
-### [下载地址](https://github.com/lanxiuyun/DotaTerrainSwitcher/releases)
+### [下载地址](https://download.upgrade.toolsetlink.com/download?appKey=DMFXx6_TXa7MjpHTWEc5eQ)
 
 ![image](.readme/image.png)
 ![image](.readme/image_en.png)
