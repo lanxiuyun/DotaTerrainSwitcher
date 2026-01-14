@@ -13,6 +13,12 @@ export interface I18nMessages {
     path: string;
     map: string;
   };
+  notification: {
+    successTitle: string;
+    successContent: string;
+    failTitle: string;
+    failContent: string;
+  };
   header: {
     title: string;
     subtitle: string;
