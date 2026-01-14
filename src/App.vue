@@ -10,6 +10,7 @@ import {
   NScrollbar,
   NSelect,
   NSpace,
+  createDiscreteApi,
 } from "naive-ui";
 import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
@@ -18,6 +19,9 @@ import { getSupportedLocales, setLocale, type SupportedLocale } from "./i18n";
 
 // 使用i18n
 const { t, locale } = useI18n();
+
+// Naive UI 通知（离散 API：不依赖 Provider）
+const { notification } = createDiscreteApi(["notification"]);
 
 // 响应式数据
 const selectedPath = ref("");
@@ -40,6 +44,10 @@ const mapOptions = computed(() => [
   { label: t("maps.ti10"), value: "dota_ti10_740" },
   { label: t("maps.cavern"), value: "dota_cavern_740" },
 ]);
+
+const selectedMapLabel = computed(() => {
+  return mapOptions.value.find((opt) => opt.value === selectedMap.value)?.label;
+});
 
 // 支持的语言列表
 const supportedLocales = getSupportedLocales();
@@ -89,16 +97,36 @@ async function executeMapReplacement() {
 
   isExecuting.value = true;
 
-  await store.set("path", { value: selectedPath.value });
-  await store.set("map", { value: selectedMap.value });
-  await store.save();
+  try {
+    await store.set("path", { value: selectedPath.value });
+    await store.set("map", { value: selectedMap.value });
+    await store.save();
 
-  // 复制  assets 中的文件到 selectedPath.value
-  await copyDotaData(
-    `resources/${selectedMap.value}/dota.vpk`,
-    selectedPath.value + "/dota.vpk"
-  );
-  isExecuting.value = false;
+    // 复制 resources 中的文件到 selectedPath.value
+    await copyDotaData(
+      `resources/${selectedMap.value}/dota.vpk`,
+      selectedPath.value + "/dota.vpk"
+    );
+    notification.success({
+      title: t("notification.successTitle"),
+      content: t("notification.successContent", {
+        map: selectedMapLabel.value || selectedMap.value,
+      }),
+      duration: 2500,
+    });
+  } catch (err) {
+    const detail =
+      err instanceof Error ? err.message : typeof err === "string" ? err : "";
+    notification.error({
+      title: t("notification.failTitle"),
+      content: detail
+        ? `${t("notification.failContent")}\n${detail}`
+        : t("notification.failContent"),
+      duration: 0,
+    });
+  } finally {
+    isExecuting.value = false;
+  }
 }
 
 // 语言切换

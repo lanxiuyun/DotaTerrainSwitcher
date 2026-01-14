@@ -9,6 +9,14 @@ export default {
     map: 'Map',
   },
 
+  // Notifications
+  notification: {
+    successTitle: 'Success',
+    successContent: 'Current terrain has been replaced with: {map}',
+    failTitle: 'Failed to replace terrain file',
+    failContent: 'Do not replace during the game (e.g., trial hero, ladder, full hero selection).',
+  },
+
   // Header and description
   header: {
     title: 'Dota Terrain Switcher',
