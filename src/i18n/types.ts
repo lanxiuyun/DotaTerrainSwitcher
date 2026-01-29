@@ -23,12 +23,20 @@ export interface I18nMessages {
     title: string;
     subtitle: string;
   };
+  about: {
+    title: string;
+    versionPrefix: string;
+    downloadLink: string;
+    thanksTitle: string;
+  };
   settings: {
     title: string;
     description: string;
     pathLabel: string;
     pathPlaceholder: string;
     mapLabel: string;
+    replaceWarning: string;
+    dotaRootButton: string;
   };
   maps: {
     default: string;
@@ -45,6 +53,34 @@ export interface I18nMessages {
     ti10: string;
     cavern: string;
   };
+  alias: {
+    title: string;
+    description: string;
+    warning: string;
+    notifySuccessTitle: string;
+    notifySuccessContent: string;
+    notifyFailTitle: string;
+    notifyFailContent: string;
+    languagePathLabel: string;
+    languagePathPlaceholder: string;
+    dotaPathLabel: string;
+    dotaPathPlaceholder: string;
+    searchLabel: string;
+    searchPlaceholder: string;
+    tableHero: string;
+    tableAliases: string;
+    summary: string;
+    execute: string;
+    executing: string;
+    logsTitle: string;
+    errors: {
+      title: string;
+      badLine: string;
+      emptyHero: string;
+      emptyAliases: string;
+      unknown: string;
+    };
+  };
   thanks: {
     title: string;
     dotaMods: string;
@@ -56,5 +92,11 @@ export interface I18nMessages {
   language: {
     zh: string;
     en: string;
+  };
+  nav: {
+    home: string;
+    alias: string;
+    ads: string;
+    about: string;
   };
 }

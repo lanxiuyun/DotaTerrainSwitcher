@@ -1,0 +1,65 @@
+/* Fluent-like global base for desktop app */
+
+:root {
+  --app-bg: #f3f4f6;
+  --app-surface: rgba(255, 255, 255, 0.78);
+  --app-surface-strong: rgba(255, 255, 255, 0.92);
+  --app-border: rgba(17, 24, 39, 0.08);
+  --app-text: #0f172a;
+  --app-text-muted: rgba(15, 23, 42, 0.68);
+  --app-radius: 14px;
+  --app-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  --app-shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: radial-gradient(
+      1200px 700px at 18% 8%,
+      rgba(37, 99, 235, 0.09) 0%,
+      rgba(37, 99, 235, 0) 62%
+    ),
+    radial-gradient(
+      900px 520px at 88% 18%,
+      rgba(16, 185, 129, 0.08) 0%,
+      rgba(16, 185, 129, 0) 58%
+    ),
+    var(--app-bg);
+  color: var(--app-text);
+  overflow: hidden;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Apple Color Emoji", "Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Subtle desktop-like scrollbar (works on Chromium) */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.18);
+  border-radius: 999px;
+  border: 3px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.26);
+  border: 3px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+

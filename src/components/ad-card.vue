@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { NCard, NImage } from "naive-ui";
+import { NButton, NCard, NImage } from "naive-ui";
+import { computed, ref, watch } from "vue";
 
 interface AdCardProps {
   // 广告标题
@@ -29,6 +30,22 @@ const props = withDefaults(defineProps<AdCardProps>(), {
   openInNewTab: true,
   width: "100%",
 });
+
+const targetValue = props.openInNewTab ? "_blank" : "_self";
+
+const imageHasError = ref(false);
+
+watch(
+  () => props.imageUrl,
+  () => {
+    imageHasError.value = false;
+  }
+);
+
+const placeholderText = computed(() => {
+  const text = (props.title || "").trim();
+  return text ? text.slice(0, 1) : "荐";
+});
 </script>
 
 <template>
@@ -37,12 +54,17 @@ const props = withDefaults(defineProps<AdCardProps>(), {
       <!-- 广告图片 -->
       <div class="ad-image-container" v-if="imageUrl">
         <NImage
+          v-if="!imageHasError"
           :src="imageUrl"
           :alt="imageAlt || title"
           class="ad-image"
           object-fit="cover"
           preview-disabled
+          @error="imageHasError = true"
         />
+        <div v-else class="ad-image-placeholder" :aria-label="title">
+          <div class="ad-image-placeholder-text">{{ placeholderText }}</div>
+        </div>
         <span class="ad-badge" v-if="badge">{{ badge }}</span>
       </div>
 
@@ -50,14 +72,13 @@ const props = withDefaults(defineProps<AdCardProps>(), {
       <div class="ad-info">
         <h3 class="ad-title">{{ title }}</h3>
         <p class="ad-description">{{ description }}</p>
-
-        <a
-          href="https://download.upgrade.toolsetlink.com/download?appKey=zY0JIMn9x6W7vCs4P1mtgQ"
-          target="_blank"
-          class="thanks-link"
-        >
-          下载地址
-        </a>
+        <div class="ad-actions" v-if="linkUrl">
+          <a :href="linkUrl" :target="targetValue" class="ad-link">
+            <NButton size="small" type="primary" class="ad-button">
+              {{ buttonText }}
+            </NButton>
+          </a>
+        </div>
       </div>
     </div>
   </NCard>
@@ -97,6 +118,23 @@ const props = withDefaults(defineProps<AdCardProps>(), {
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+}
+
+.ad-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(59, 130, 246, 0.22) 100%);
+  color: #0f172a;
+}
+
+.ad-image-placeholder-text {
+  font-weight: 900;
+  font-size: 1.3rem;
+  line-height: 1;
+  opacity: 0.92;
 }
 
 .ad-card:hover .ad-image {
@@ -155,5 +193,13 @@ const props = withDefaults(defineProps<AdCardProps>(), {
   height: auto;
   border-radius: 4px;
   transition: all 0.2s ease;
+}
+
+.ad-actions {
+  margin-top: 4px;
+}
+
+.ad-link {
+  text-decoration: none;
 }
 </style>
