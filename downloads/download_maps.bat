@@ -78,13 +78,13 @@ del "%DOWNLOAD_DIR%temp_step2.html" 2>nul
 del "%DOWNLOAD_DIR%temp_link.txt" 2>nul
 timeout /t 3 /nobreak >nul
 
-:: Download dota_crownfall_741.7z
-echo Downloading: dota_crownfall_741.7z
+:: Download default_741.7z
+echo Downloading: default_741.7z
 curl -s -L -A "%USER_AGENT%" -X POST -d "op=download2&id=9n57hx2vukez&rand=&referer=&method_free=&method_premium=" "https://sharemods.com/9n57hx2vukez/dota_crownfall_741.7z.html" -o "%DOWNLOAD_DIR%temp_step2.html" --max-time 30 2>nul
 findstr /r "smdl.*r2.cloudflarestorage.com" "%DOWNLOAD_DIR%temp_step2.html" > "%DOWNLOAD_DIR%temp_link.txt" 2>nul
 for /f tokens^=2^ delims^=^" %%a in (%DOWNLOAD_DIR%temp_link.txt) do (
     echo   Got download link, downloading file...
-    curl -L -A "%USER_AGENT%" "%%a" -o "%DOWNLOAD_DIR%dota_crownfall_741.7z" --max-time 300 -C - 2>nul
+    curl -L -A "%USER_AGENT%" "%%a" -o "%DOWNLOAD_DIR%dota_default_741.7z" --max-time 300 -C - 2>nul
     goto :next6
 )
 :next6
