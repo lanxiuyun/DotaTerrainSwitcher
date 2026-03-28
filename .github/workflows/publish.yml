@@ -59,6 +59,53 @@ jobs:
       - name: install frontend dependencies
         run: pnpm install
 
+      - name: Download Map Resources
+        shell: powershell
+        run: |
+          $resourcesDir = "src-tauri/resources"
+          $zipFile = "maps-resources.zip"
+          $tag = "maps-resources-741"
+          $repo = "${{ github.repository }}"
+
+          # 检查 resources 目录是否已有内容
+          if (Test-Path $resourcesDir) {
+            $items = Get-ChildItem $resourcesDir -ErrorAction SilentlyContinue
+            if ($items.Count -gt 0) {
+              Write-Host "Resources directory already exists with $($items.Count) items, skipping download"
+              exit 0
+            }
+          }
+
+          # 获取 Release 下载 URL
+          $apiUrl = "https://api.github.com/repos/$repo/releases/tags/$tag"
+          Write-Host "Fetching release info from $apiUrl"
+
+          $release = Invoke-RestMethod -Uri $apiUrl -Headers @{
+            "Accept" = "application/vnd.github.v3+json"
+            "Authorization" = "token ${{ secrets.GITHUB_TOKEN }}"
+          } -ErrorAction Stop
+
+          $asset = $release.assets | Where-Object { $_.name -eq $zipFile } | Select-Object -First 1
+          if (-not $asset) {
+            throw "Could not find $zipFile in release $tag"
+          }
+
+          $downloadUrl = $asset.browser_download_url
+          Write-Host "Downloading from $downloadUrl"
+
+          # 下载文件
+          Invoke-WebRequest -Uri $downloadUrl -OutFile $zipFile -Headers @{
+            "Accept" = "application/octet-stream"
+            "Authorization" = "token ${{ secrets.GITHUB_TOKEN }}"
+          }
+
+          # 解压
+          Expand-Archive -Path $zipFile -DestinationPath $resourcesDir -Force
+          Remove-Item $zipFile
+
+          Write-Host "Map resources downloaded and extracted successfully"
+          Get-ChildItem $resourcesDir
+
       - uses: tauri-apps/tauri-action@v0
         id: tauri-action
         env:
