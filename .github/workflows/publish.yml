@@ -22,6 +22,7 @@ jobs:
           echo "App version: $VERSION"
 
   publish-tauri:
+    needs: get-version
     permissions:
       contents: write
     outputs:
@@ -135,12 +136,15 @@ jobs:
           args: ${{ matrix.args }}
 
   upgradeLink-upload:
-    needs: publish-tauri
+    needs:
+      - get-version
+      - publish-tauri
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    environment: tauri
     steps:
-      - name: Upload to UpgradeLink
+      - name: Send a request to UpgradeLink
         uses: toolsetlink/upgradelink-action@3.0.2
         with:
           access_key: ${{ secrets.UPGRADE_LINK_ACCESS_KEY }}
