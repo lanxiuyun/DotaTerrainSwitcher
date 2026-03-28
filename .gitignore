@@ -1,4 +1,5 @@
 *.vpk
+downloads/*.7z
 src-tauri/*
 src-tauri/icons
 
