@@ -29,6 +29,16 @@ const ads = ref<AdCarouselItem[]>([
       "https://download.upgrade.toolsetlink.com/download?appKey=zY0JIMn9x6W7vCs4P1mtgQ",
     badge: "推荐",
   },
+  {
+    title: "SakuraXY 论坛",
+    description: "推荐一个科技前沿论坛，在论坛中可以找到各种科技前沿的资讯和工具",
+    imageUrl:
+      "https://forum.sakuraxy.com/uploads/default/original/1X/2c6d4948b380e7c2a84d8d72e6d9b63aada678ea.jpeg",
+    buttonText: "立即访问",
+    linkUrl:
+      "https://forum.sakuraxy.com/latest",
+    badge: "论坛",
+  },
 ]);
 
 const selectedMenuKey = computed(() => {
