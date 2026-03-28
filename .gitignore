@@ -1,4 +1,5 @@
 *.vpk
+.tauri
 downloads/*.7z
 downloads/temp_link.txt
 downloads/temp_step2.html
