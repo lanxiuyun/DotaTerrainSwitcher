@@ -1,6 +1,6 @@
 [package]
 name = "DotaTerrainSwitcher"
-version = "7.40.0"
+version = "7.41.0"
 description = "A Tauri App"
 authors = ["lanxiuyun"]
 edition = "2021"
