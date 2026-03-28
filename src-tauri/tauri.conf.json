@@ -49,7 +49,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["msi", "nsis"],
+    "targets": ["msi"],
     "resources": [
       "resources"
     ],
