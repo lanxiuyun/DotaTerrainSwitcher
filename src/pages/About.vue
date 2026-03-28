@@ -47,7 +47,13 @@ async function handleCheckUpdate() {
 
   checking.value = true;
   try {
-    const update = await check();
+    const update = await check(
+      {
+        headers: {
+          'X-AccessKey': 'DMFXx6_TXa7MjpHTWEc5eQ',
+        },
+      }
+    );
     if (update) {
       showUpdateDialog(update);
     } else {
