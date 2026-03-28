@@ -13,6 +13,8 @@ env:
 jobs:
   prepare-maps:
     runs-on: windows-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -46,7 +48,7 @@ jobs:
           Write-Host "Package size: $([math]::Round($size, 2)) MB"
 
       - name: Upload to Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: maps-resources-${{ env.MAPS_VERSION }}
           name: "地图资源包 v${{ env.MAPS_VERSION }}"
@@ -56,8 +58,7 @@ jobs:
           files: |
             maps-resources.zip
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Artifact (for debugging)
         uses: actions/upload-artifact@v4
