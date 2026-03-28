@@ -7,6 +7,20 @@ on:
   workflow_dispatch: # 手动触发
 
 jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    outputs:
+      appVersion: ${{ steps.get_version.outputs.appVersion }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get app version from tauri.conf.json
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' src-tauri/tauri.conf.json)
+          echo "appVersion=$VERSION" >> $GITHUB_OUTPUT
+          echo "App version: $VERSION"
+
   publish-tauri:
     permissions:
       contents: write
