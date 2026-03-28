@@ -64,7 +64,6 @@ export function useMapSwitcher() {
     { label: t("maps.spring"), value: "dota_spring_740" },
     { label: t("maps.winter"), value: "dota_winter_740" },
     { label: t("maps.journey"), value: "dota_journey_740" },
-    { label: t("maps.crownfall"), value: "dota_crownfall_740" },
     { label: t("maps.ti10"), value: "dota_ti10_740" },
     { label: t("maps.cavern"), value: "dota_cavern_740" },
   ]);
