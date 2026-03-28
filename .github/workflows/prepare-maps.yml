@@ -8,6 +8,7 @@ on:
 
 env:
   MAPS_VERSION: "741"
+  PYTHONIOENCODING: utf-8
 
 jobs:
   prepare-maps:
@@ -26,11 +27,13 @@ jobs:
 
       - name: Download Map Files
         working-directory: ./downloads
+        shell: cmd
         run: |
-          python download_maps.py
+          download_maps_ci.bat
 
       - name: Extract Map Files
         working-directory: ./downloads
+        shell: cmd
         run: |
           python extract_maps.py
 
