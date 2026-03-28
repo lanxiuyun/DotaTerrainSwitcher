@@ -28,6 +28,17 @@ export default {
     versionPrefix: "版本：",
     downloadLink: "下载地址",
     thanksTitle: "致谢",
+    checkUpdate: "检查更新",
+    checking: "检查中...",
+    downloading: "下载中...",
+    upToDate: "当前已是最新版本",
+    checkError: "检查更新失败，请稍后重试",
+    newVersion: "发现新版本",
+    newVersionContent: "新版本 {version} 可用，是否现在下载并安装？",
+    downloadNow: "立即下载",
+    remindLater: "稍后提醒",
+    restartRequired: "更新下载完成，重启应用后即可生效",
+    downloadError: "下载更新失败，请稍后重试",
   },
 
   // 设置卡片

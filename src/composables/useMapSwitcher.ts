@@ -54,19 +54,18 @@ export function useMapSwitcher() {
   const isExecuting = ref(false);
 
   const mapOptions = computed(() => [
-    { label: t("maps.default"), value: "dota_default_740" },
-    { label: t("maps.coloseum"), value: "dota_coloseum_740" },
-    { label: t("maps.desert"), value: "dota_desert_740" },
-    { label: t("maps.jungle"), value: "dota_jungle_740" },
-    { label: t("maps.reef"), value: "dota_reef_740" },
-    { label: t("maps.autumn"), value: "dota_autumn_740" },
-    { label: t("maps.summer"), value: "dota_summer_740" },
-    { label: t("maps.spring"), value: "dota_spring_740" },
-    { label: t("maps.winter"), value: "dota_winter_740" },
-    { label: t("maps.journey"), value: "dota_journey_740" },
-    { label: t("maps.crownfall"), value: "dota_crownfall_740" },
-    { label: t("maps.ti10"), value: "dota_ti10_740" },
-    { label: t("maps.cavern"), value: "dota_cavern_740" },
+    { label: t("maps.default"), value: "dota_default" },
+    { label: t("maps.coloseum"), value: "dota_coloseum" },
+    { label: t("maps.desert"), value: "dota_desert" },
+    { label: t("maps.jungle"), value: "dota_jungle" },
+    { label: t("maps.reef"), value: "dota_reef" },
+    { label: t("maps.autumn"), value: "dota_autumn" },
+    { label: t("maps.summer"), value: "dota_summer" },
+    { label: t("maps.spring"), value: "dota_spring" },
+    { label: t("maps.winter"), value: "dota_winter" },
+    { label: t("maps.journey"), value: "dota_journey" },
+    { label: t("maps.ti10"), value: "dota_ti10" },
+    { label: t("maps.cavern"), value: "dota_cavern" },
   ]);
 
   const selectedMapLabel = computed(() => {

@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { getName, getVersion } from "@tauri-apps/api/app";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import { NButton, NCard, NList, NListItem } from "naive-ui";
+import { check, type Update } from "@tauri-apps/plugin-updater";
+import { NButton, NCard, NList, NListItem, useDialog, useMessage } from "naive-ui";
 import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
+const message = useMessage();
+const dialog = useDialog();
 
 const appName = ref("");
 const appVersion = ref("");
-
-const updateUrl =
-  "https://download.upgrade.toolsetlink.com/download?appKey=DMFXx6_TXa7MjpHTWEc5eQ";
+const checking = ref(false);
+const downloading = ref(false);
 
 const thanksList = [
   {
@@ -41,7 +43,55 @@ const thanksList = [
 ] as const;
 
 async function handleCheckUpdate() {
-  await openUrl(updateUrl);
+  if (checking.value || downloading.value) return;
+
+  checking.value = true;
+  try {
+    const update = await check(
+      {
+        headers: {
+          'X-AccessKey': 'DMFXx6_TXa7MjpHTWEc5eQ',
+        },
+      }
+    );
+    if (update) {
+      showUpdateDialog(update);
+    } else {
+      message.success(t("about.upToDate"));
+    }
+  } catch (err) {
+    message.error(t("about.checkError"));
+    console.error("检查更新失败:", err);
+  } finally {
+    checking.value = false;
+  }
+}
+
+function showUpdateDialog(update: Update) {
+  dialog.info({
+    title: t("about.newVersion"),
+    content: t("about.newVersionContent", { version: update.version }),
+    positiveText: t("about.downloadNow"),
+    negativeText: t("about.remindLater"),
+    onPositiveClick: async () => {
+      await downloadAndInstall(update);
+    },
+  });
+}
+
+async function downloadAndInstall(update: Update) {
+  downloading.value = true;
+  try {
+    await update.downloadAndInstall((progress) => {
+      console.log(`下载进度: ${progress.event}`);
+    });
+    message.success(t("about.restartRequired"));
+  } catch (err) {
+    message.error(t("about.downloadError"));
+    console.error("下载更新失败:", err);
+  } finally {
+    downloading.value = false;
+  }
 }
 
 async function handleOpenLink(url: string) {
@@ -78,9 +128,10 @@ onMounted(async () => {
         <NButton
           type="primary"
           class="update-button"
+          :loading="checking || downloading"
           @click="handleCheckUpdate"
         >
-          {{ t("about.downloadLink") }}
+          {{ checking ? t("about.checking") : downloading ? t("about.downloading") : t("about.checkUpdate") }}
         </NButton>
       </div>
     </NCard>

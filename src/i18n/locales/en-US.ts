@@ -28,6 +28,17 @@ export default {
     versionPrefix: "Version:",
     downloadLink: "Download Link",
     thanksTitle: "Acknowledgements",
+    checkUpdate: "Check Update",
+    checking: "Checking...",
+    downloading: "Downloading...",
+    upToDate: "You're up to date",
+    checkError: "Failed to check for updates, please try again later",
+    newVersion: "New Version Available",
+    newVersionContent: "Version {version} is available. Download and install now?",
+    downloadNow: "Download Now",
+    remindLater: "Remind Me Later",
+    restartRequired: "Update downloaded. Restart to apply.",
+    downloadError: "Failed to download update, please try again later",
   },
 
   // Settings card
