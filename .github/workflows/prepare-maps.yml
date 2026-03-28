@@ -1,0 +1,64 @@
+name: "Prepare Map Resources"
+
+on:
+  workflow_dispatch: # 手动触发
+  schedule:
+    # 每月1号检查一次（可选）
+    - cron: '0 0 1 * *'
+
+env:
+  MAPS_VERSION: "741"
+
+jobs:
+  prepare-maps:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install 7-Zip
+        run: |
+          choco install 7zip -y
+
+      - name: Download Map Files
+        working-directory: ./downloads
+        run: |
+          python download_maps.py
+
+      - name: Extract Map Files
+        working-directory: ./downloads
+        run: |
+          python extract_maps.py
+
+      - name: Package Resources
+        run: |
+          # 将 resources 目录打包成 zip
+          Compress-Archive -Path "src-tauri/resources/*" -DestinationPath "maps-resources.zip" -Force
+          # 显示打包后的文件大小
+          $size = (Get-Item "maps-resources.zip").Length / 1MB
+          Write-Host "Package size: $([math]::Round($size, 2)) MB"
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: maps-resources-${{ env.MAPS_VERSION }}
+          name: "地图资源包 v${{ env.MAPS_VERSION }}"
+          body: |
+            预处理的地图资源文件，供打包 workflow 使用。
+            包含所有解压后的地图文件，可直接放入 src-tauri/resources 目录。
+          files: |
+            maps-resources.zip
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Artifact (for debugging)
+        uses: actions/upload-artifact@v4
+        with:
+          name: maps-resources
+          path: maps-resources.zip
+          retention-days: 7

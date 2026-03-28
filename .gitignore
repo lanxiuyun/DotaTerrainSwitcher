@@ -3,8 +3,7 @@
 downloads/*.7z
 downloads/temp_link.txt
 downloads/temp_step2.html
-src-tauri/*
-src-tauri/icons
+src-tauri/resources
 
 # Logs
 logs
