@@ -27,7 +27,7 @@ const {
 <template>
   <div class="page">
     <div class="page-head">
-      <div class="page-title">{{ t("settings.title") }}</div>
+      <div class="page-title">{{ t("settings.title") }} (Dota V7.41)</div>
       <div class="page-desc">{{ t("settings.description") }}</div>
     </div>
 
