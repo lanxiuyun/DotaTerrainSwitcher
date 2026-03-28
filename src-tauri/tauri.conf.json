@@ -18,7 +18,33 @@
       }
     ],
     "security": {
-      "csp": null
+      "csp": null,
+      "capabilities": [
+        {
+          "identifier": "main-capability",
+          "description": "Main app capabilities",
+          "local": true,
+          "windows": ["main"],
+          "permissions": [
+            "core:default",
+            "opener:default",
+            "dialog:default",
+            "fs:default",
+            "store:default",
+            "updater:default"
+          ]
+        }
+      ]
+    }
+  },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "dialog": false,
+      "endpoints": [
+        "https://api.upgrade.toolsetlink.com/upgrade/v1/tauri/check?appKey=DMFXx6_TXa7MjpHTWEc5eQ"
+      ],
+      "pubkey": ""
     }
   },
   "bundle": {

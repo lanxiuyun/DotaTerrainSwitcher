@@ -28,6 +28,17 @@ export interface I18nMessages {
     versionPrefix: string;
     downloadLink: string;
     thanksTitle: string;
+    checkUpdate: string;
+    checking: string;
+    downloading: string;
+    upToDate: string;
+    checkError: string;
+    newVersion: string;
+    newVersionContent: string;
+    downloadNow: string;
+    remindLater: string;
+    restartRequired: string;
+    downloadError: string;
   };
   settings: {
     title: string;
