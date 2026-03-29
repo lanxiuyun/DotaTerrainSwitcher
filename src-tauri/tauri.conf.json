@@ -26,7 +26,7 @@
       "dangerousInsecureTransportProtocol": true,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDVBNURDMDhEMzRDQUM3RDkKUldUWng4bzBqY0JkV29OMitpbUZML1pjenU1VWUyTWlheDNMTUZMVXZwRDNRUzdUdTJ0WXN5aGcK",
       "endpoints": [
-        "https://api.upgrade.toolsetlink.com/upgrade/v1/tauri/check?appKey=DMFXx6_TXa7MjpHTWEc5eQ"
+        "https://api.upgrade.toolsetlink.com/v1/tauri/upgrade?tauriKey=DMFXx6_TXa7MjpHTWEc5eQ&versionName={{current_version}}&appointVersionName=&devModelKey=&devKey=&target={{target}}&arch={{arch}}"
       ],
       "windows": {
         "installMode": "passive"
