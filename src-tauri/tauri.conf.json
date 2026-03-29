@@ -39,20 +39,21 @@
   },
   "plugins": {
     "updater": {
-      "active": true,
-      "dialog": false,
+      "dangerousInsecureTransportProtocol": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDVBNURDMDhEMzRDQUM3RDkKUldUWng4bzBqY0JkV29OMitpbUZML1pjenU1VWUyTWlheDNMTUZMVXZwRDNRUzdUdTJ0WXN5aGcK",
       "endpoints": [
         "https://api.upgrade.toolsetlink.com/upgrade/v1/tauri/check?appKey=DMFXx6_TXa7MjpHTWEc5eQ"
       ],
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDVBNURDMDhEMzRDQUM3RDkKUldUWng4bzBqY0JkV29OMitpbUZML1pjenU1VWUyTWlheDNMTUZMVXZwRDNRUzdUdTJ0WXN5aGcK"
+      "windows": {
+        "installMode": "passive"
+      }
     }
   },
   "bundle": {
     "active": true,
+    "createUpdaterArtifacts": true,
     "targets": ["msi"],
-    "resources": [
-      "resources"
-    ],
+    "resources": ["resources"],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
