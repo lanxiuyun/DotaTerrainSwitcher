@@ -14,7 +14,8 @@
       {
         "title": "刀刀小工具",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "devtools": true
       }
     ],
     "security": {
