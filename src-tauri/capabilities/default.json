@@ -16,6 +16,7 @@
     "store:allow-load",
 
     "fs:default",
+    "updater:default",
     {
       "identifier": "fs:allow-copy-file",
       "allow": [

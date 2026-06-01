@@ -121,7 +121,9 @@ jobs:
           args: ${{ matrix.args }}
 
   upgradeLink-upload:
-    needs: publish-tauri
+    needs:
+      - get-version
+      - publish-tauri
     permissions:
       contents: write
     runs-on: ubuntu-latest

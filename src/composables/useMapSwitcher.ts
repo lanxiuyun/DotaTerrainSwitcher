@@ -153,7 +153,7 @@ export function useMapSwitcher() {
         content: detail
           ? `${t("notification.failContent")}\n${detail}`
           : t("notification.failContent"),
-        duration: 0,
+        duration: 5000,
       });
     } finally {
       isExecuting.value = false;
