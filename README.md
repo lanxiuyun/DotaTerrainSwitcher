@@ -11,3 +11,9 @@
 
 ![image](.readme/image.png)
 ![image](.readme/image_en.png)
+
+### 联系我们
+
+QQ群：554849436
+
+![QQ群二维码](.readme/qrcode_qq.jpg)
