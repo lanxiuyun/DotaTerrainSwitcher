@@ -26,6 +26,8 @@ const ads = ref<AdCarouselItem[]>([
     buttonText: "立即加入",
     linkUrl: "",
     badge: "QQ群",
+    hoverImageUrl: "/qrcode_qq.jpg",
+    hoverImageAlt: "QQ群二维码",
   },
   {
     title: "Lazyeat（懒人手势）",

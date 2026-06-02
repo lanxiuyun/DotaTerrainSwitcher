@@ -21,6 +21,10 @@ interface AdCardProps {
   badge?: string;
   // 卡片宽度
   width?: string;
+  // hover时显示的图片URL（如二维码浮窗）
+  hoverImageUrl?: string;
+  // hover图片alt文本
+  hoverImageAlt?: string;
 }
 
 const props = withDefaults(defineProps<AdCardProps>(), {
@@ -46,10 +50,26 @@ const placeholderText = computed(() => {
   const text = (props.title || "").trim();
   return text ? text.slice(0, 1) : "荐";
 });
+
+const showHover = ref(false);
+const hoverPosition = ref({ x: 0, y: 0 });
+
+function handleMouseEnter(e: MouseEvent) {
+  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+  hoverPosition.value = {
+    x: rect.left + rect.width / 2,
+    y: rect.bottom + 8,
+  };
+  showHover.value = true;
+}
+
+function handleMouseLeave() {
+  showHover.value = false;
+}
 </script>
 
 <template>
-  <NCard class="ad-card" :style="{ width: props.width }">
+  <NCard class="ad-card" :style="{ width: props.width }" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
     <div class="ad-content">
       <!-- 广告图片 -->
       <div class="ad-image-container" v-if="imageUrl">
@@ -80,6 +100,21 @@ const placeholderText = computed(() => {
           </a>
         </div>
       </div>
+
+      <!-- hover 浮窗二维码 -->
+      <Teleport to="body">
+        <div
+          v-if="hoverImageUrl && showHover"
+          class="hover-image-wrapper"
+          :style="{ left: hoverPosition.x + 'px', top: hoverPosition.y + 'px' }"
+        >
+          <img
+            :src="hoverImageUrl"
+            :alt="hoverImageAlt || title"
+            class="hover-image"
+          />
+        </div>
+      </Teleport>
     </div>
   </NCard>
 </template>
@@ -88,8 +123,37 @@ const placeholderText = computed(() => {
 .ad-card {
   transition: all 0.3s ease;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible !important;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.hover-image-wrapper {
+  position: fixed;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: #1a1a1a;
+  padding: 2px;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.hover-image {
+  width: 240px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+:deep(.n-image) {
+  background: transparent !important;
+}
+
+:deep(.n-image img) {
+  border-radius: 8px;
 }
 
 .ad-card:hover {

@@ -11,6 +11,8 @@ export type AdCarouselItem = {
   buttonText: string;
   linkUrl: string;
   badge?: string;
+  hoverImageUrl?: string;
+  hoverImageAlt?: string;
 };
 
 const props = withDefaults(
@@ -113,6 +115,8 @@ onUnmounted(() => {
             :buttonText="currentAd.buttonText"
             :linkUrl="currentAd.linkUrl"
             :badge="currentAd.badge"
+            :hoverImageUrl="currentAd.hoverImageUrl"
+            :hoverImageAlt="currentAd.hoverImageAlt"
             width="100%"
           />
         </div>
