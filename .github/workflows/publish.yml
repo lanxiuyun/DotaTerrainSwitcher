@@ -122,7 +122,6 @@ jobs:
 
   upgradeLink-upload:
     needs:
-      - get-version
       - publish-tauri
     permissions:
       contents: write
