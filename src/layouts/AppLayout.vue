@@ -20,6 +20,14 @@ function handleLocaleChange(value: SupportedLocale) {
 
 const ads = ref<AdCarouselItem[]>([
   {
+    title: "QQ群：554849436",
+    description: "欢迎加入刀刀小工具交流群！这里可以反馈问题。",
+    imageUrl: "",
+    buttonText: "立即加入",
+    linkUrl: "",
+    badge: "QQ群",
+  },
+  {
     title: "Lazyeat（懒人手势）",
     description: "手势隔空控制，比划就行",
     imageUrl:
