@@ -1,5 +1,7 @@
 ## DotaTerrainSwitcher(刀刀小工具)
 
+[English README](README-en.md)
+
 ![image](.readme/hero-search.png)
 
 ### 功能
